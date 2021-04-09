@@ -1,26 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./styles.css";
 
 function App() {
-  async function handleAddRepository() {
-    // TODO
+  const [repositories, setRepositories] = useState(["Repositório 1"]);
+  const [counter, setCounter] = useState(2);
+
+  function handleAddRepository() {
+    setRepositories([...repositories, `Repositório ${counter}`]);
+    setCounter((counter) => counter + 1);
   }
 
-  async function handleRemoveRepository(id) {
-    // TODO
+  function handleRemoveRepository(index) {
+    const clone = [...repositories];
+    clone.splice(index, 1);
+
+    setRepositories(clone);
   }
 
   return (
     <div>
       <ul data-testid="repository-list">
-        <li>
-          Repositório 1
-
-          <button onClick={() => handleRemoveRepository(1)}>
-            Remover
-          </button>
-        </li>
+        {repositories.map((repositorie, index) => {
+          return (
+            <div key={index}>
+              <li>{repositorie}</li>
+              <button onClick={() => handleRemoveRepository(index)}>
+                Remover
+              </button>
+            </div>
+          );
+        })}
       </ul>
 
       <button onClick={handleAddRepository}>Adicionar</button>
